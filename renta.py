@@ -22,7 +22,7 @@ X = data.drop('price', axis=1)  # Características features
 y = data['price']                # Variable objetivo precio de vivienda
 
 # Dividir el conjunto de datos en entrenamiento y prueba
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
 # Crear el modelo de regresión lineal
 model = LinearRegression()
