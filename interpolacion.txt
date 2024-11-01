@@ -1,0 +1,55 @@
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score, mean_squared_error
+
+# Cargar el conjunto de datos desde un archivo Excel
+data = pd.read_excel(r'C:\Users\juanw\Downloads\SaratogaHouses.csv', engine='openpyxl')
+
+# Explorar los datos
+print(data.head())  # Muestra las primeras filas del dataset
+print(data.info())  # Información general sobre el dataset
+
+# Convertir variables categóricas en variables dummy, si es necesario
+data = pd.get_dummies(data, drop_first=True)
+
+# Verificar valores faltantes
+print(data.isnull().sum())  # Muestra el conteo de valores faltantes por columna
+
+# Separar características (X) y variable objetivo (y)
+X = data.drop('price', axis=1)  # Características features
+y = data['price']                # Variable objetivo precio de vivienda
+
+# Dividir el conjunto de datos en entrenamiento y prueba
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Transformar características para incluir términos polinómicos
+poly = PolynomialFeatures(degree=2)  # Cambia el grado según lo que necesites
+X_train_poly = poly.fit_transform(X_train)
+X_test_poly = poly.transform(X_test)
+
+# Crear el modelo de regresión lineal
+model = LinearRegression()
+
+# Entrenar el modelo
+model.fit(X_train_poly, y_train)
+
+# Hacer predicciones sobre el conjunto de prueba
+y_pred = model.predict(X_test_poly)
+
+# Calcular el error cuadrático medio
+mse = mean_squared_error(y_test, y_pred)
+
+# Evaluar el modelo con R^2
+r2 = r2_score(y_test, y_pred)
+
+# Mostrar resultados
+print(f'Mean Squared Error: {mse}')
+print(f'R^2 Score: {r2}')
+
+# Tamaño del conjunto de entrenamiento y prueba
+print(f'Tamaño del conjunto de entrenamiento: {X_train.shape[0]}')
+print(f'Tamaño del conjunto de prueba: {X_test.shape[0]}')
