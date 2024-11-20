@@ -1,1 +1,0 @@
-Dentro de esta carpeta se guardarán todos los experimentos que se lleven a cabo.

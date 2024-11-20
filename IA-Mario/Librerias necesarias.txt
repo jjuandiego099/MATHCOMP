@@ -1,7 +1,0 @@
-(pip install):
-- opencv-python
-- numpy
-- pyautogui
-- pydirectinput
-- pywinauto
-- pywin32
